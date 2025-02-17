@@ -1,0 +1,29 @@
+# Node.js (React Client)
+**/node_modules/
+**/build/
+
+# Java (Spring Boot backends)
+**/target/
+**/.idea/
+**/.mvn/
+**/.settings/
+**/logs/
+**/.classpath
+**/.project
+**/.mvn/
+**/.gradle/
+
+# IDE settings
+.idea/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Maven wrapper
+/mvnw
+/mvnw.cmd
