@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
-public class KafkaWebSocketHandler extends TextWebSocketHandler {
+public class AllTransactionsWebSocketHandler extends TextWebSocketHandler {
     private static final List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
 
 
-    @KafkaListener(topics = "topic2", groupId = "websocket-group")
-    public void listen(ConsumerRecord<String, String> record) throws IOException {
-        System.out.println("\nKafka Listener Triggered | Key: " + record.key() + " | Value: " + record.value() + " | Sessions: " + sessions.size());
+    @KafkaListener(topics = "topic1", groupId = "websocket-all-value-group")
+    public void listenTopic1(ConsumerRecord<String, String> record) throws IOException {
+        System.out.println("\nKafka Listener (All-Value Transactions) | Key: " + record.key() + " | Value: " + record.value() + " | Sessions: " + sessions.size());
         if (sessions.isEmpty()) {
             System.out.println("No WebSocket sessions available.");
             return;

@@ -1,33 +1,39 @@
 /* EventsList.module.css */
+.eventsContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Optional: Space between the two lists */
+}
+
 .eventsList {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    max-width: 600px;
-    margin: auto;
-  }
-  
-  .eventsHeader {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .eventsMessages {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  
-  .eventMessage {
-    background-color: #fff;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .noMessages {
-    font-style: italic;
-    color: #888;
-  }
-  
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  max-width: 600px;
+  width: 45%; /* Make the width of each list smaller to fit side by side */
+  margin: 0; /* Remove auto margin to make both lists aligned horizontally */
+}
+
+.eventsHeader {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.eventsMessages {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.eventMessage {
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.noMessages {
+  font-style: italic;
+  color: #888;
+}
