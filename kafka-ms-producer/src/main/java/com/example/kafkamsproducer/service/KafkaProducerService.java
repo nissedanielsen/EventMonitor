@@ -15,10 +15,6 @@ public class KafkaProducerService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-  //  public void sendMessage(String topic,String id, String message) {
-  //      kafkaTemplate.send(topic, id, message);
-  //  }
-
     public void sendTransaction(String topic,String id, Transaction transaction) {
         kafkaTemplate.send(topic, id, transaction);
     }

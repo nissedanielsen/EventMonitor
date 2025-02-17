@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @EnableScheduling
@@ -19,7 +20,6 @@ public class KafkaProducerController {
     @Value("${spring.kafka.topic.name}")
     private String topicName;
 
-    // Constructor Injection
     public KafkaProducerController(KafkaProducerService kafkaProducerService) {
         this.kafkaProducerService = kafkaProducerService;
     }
@@ -30,7 +30,7 @@ public class KafkaProducerController {
         double randomValue = Math.random() * 5000;
 
         Transaction transaction = Transaction.builder()
-                .transactionId(RandomStringUtils.randomAlphanumeric(10))
+                .transactionId(UUID.randomUUID().toString())
                 .senderId(RandomStringUtils.randomAlphanumeric(8))
                 .receiverId(RandomStringUtils.randomAlphanumeric(8))
                 .amount(Math.round(randomValue * 100.0) / 100.0)
@@ -53,9 +53,5 @@ public class KafkaProducerController {
         System.out.println("ping");
         return "pong";
     }
-    @GetMapping("/pings")
-    public String pings() {
-        System.out.println("pings");
-        return "pongs";
-    }
+
 }
