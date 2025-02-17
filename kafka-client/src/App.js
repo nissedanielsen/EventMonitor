@@ -9,11 +9,11 @@ const App = () => {
       <div className={styles.eventsContainer}>
         <EventsList 
           url="ws://localhost:8081/ws/transactions-high-value" 
-          headerText="List High-Value Transactions" 
+          headerText="High-Value Transactions" 
         />
         <EventsList 
           url="ws://localhost:8081/ws/transactions-all" 
-          headerText="List All Transactions" 
+          headerText="All Transactions" 
         />
       </div>
     </div>

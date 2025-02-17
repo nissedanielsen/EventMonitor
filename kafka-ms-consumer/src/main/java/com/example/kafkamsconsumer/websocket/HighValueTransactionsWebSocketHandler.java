@@ -18,7 +18,7 @@ public class HighValueTransactionsWebSocketHandler extends TextWebSocketHandler 
     private static final List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
 
 
-    @KafkaListener(topics = "topic2", groupId = "websocket-high-value-group")
+    @KafkaListener(topics = "topic-high-value-transactions", groupId = "websocket-high-value-group")
     public void listenTopic1(ConsumerRecord<String, String> record) throws IOException {
         System.out.println("\nKafka Listener (High-Value Transactions) | Key: " + record.key() + " | Value: " + record.value() + " | Sessions: " + sessions.size());
         if (sessions.isEmpty()) {

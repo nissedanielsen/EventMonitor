@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.KafkaStreamsConfiguration;
-import org.springframework.kafka.support.serializer.JsonSerde;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,12 +42,15 @@ public class KafkaStreamConfig {
     public KStream<String, Transaction> kStream(StreamsBuilder builder) {
         Serde<Transaction> serde = Serdes.serdeFrom(new TransactionSerializer(), new TransactionDeserializer());
 
-        // create stream from topic1
-        KStream<String, Transaction> stream = builder.stream("topic1", Consumed.with(Serdes.String(), serde));
+        // create stream from topic-input
+        KStream<String, Transaction> stream = builder.stream("topic-input", Consumed.with(Serdes.String(), serde));
 
-        // filter and send to topic2
+        // send all transactions to topic-all-transactions
+        stream.to("topic-all-transactions", Produced.with(Serdes.String(), serde));
+
+        // filter and send to high-value-transactions
         stream.filter((key, value) -> value.getAmount() > 2500)
-                .to("topic2", Produced.with(Serdes.String(), serde));
+                .to("topic-high-value-transactions", Produced.with(Serdes.String(), serde));
 
         return stream;
     }
