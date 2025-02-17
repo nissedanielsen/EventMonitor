@@ -1,0 +1,60 @@
+version: '3.7'
+services:
+  kafka:
+    image: 'bitnami/kafka:latest'
+    container_name: kafka
+    networks:
+      - my-network
+    environment:
+      - KAFKA_LISTENER_SECURITY_PROTOCOL=PLAINTEXT
+      - 'KAFKA_ADVERTISED_LISTENER=PLAINTEXT://kafka:9092'
+      - 'KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181'
+      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+    ports:
+      - '9092:9092'
+    depends_on:
+      - zookeeper
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    container_name: zookeeper
+    networks:
+      - my-network
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    ports:
+      - '2181:2181'
+  ms-producer-app:
+    build:
+      context: ./kafka-ms-producer
+      dockerfile: Dockerfile
+    container_name: ms-producer-app
+    networks:
+      - my-network
+    ports:
+      - '8080:8080'
+  ms-consumer-app:
+    build:
+      context: ./kafka-ms-consumer
+      dockerfile: Dockerfile
+    container_name: ms-consumer-app
+    networks:
+      - my-network
+    ports:
+      - '8081:8081'
+    depends_on:
+      - kafka
+  react-app:
+    build:
+      context: ./kafka-client
+      dockerfile: Dockerfile
+    container_name: react-app
+    networks:
+      - my-network
+    ports:
+      - '80:80'
+    depends_on:
+      - ms-producer-app
+      - ms-consumer-app
+networks:
+  my-network:
+    driver: bridge

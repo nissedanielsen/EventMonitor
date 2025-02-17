@@ -1,0 +1,16 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: kafka-ms-consumer
+
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: kafka-ms-consumer-groupId
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+
+
+
