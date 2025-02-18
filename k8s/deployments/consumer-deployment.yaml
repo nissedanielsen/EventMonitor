@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-consumer-app
+  labels:
+    app: ms-consumer-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ms-consumer-app
+  template:
+    metadata:
+      labels:
+        app: ms-consumer-app
+    spec:
+      containers:
+        - name: ms-consumer-app
+          image: ms-consumer-app:v1.0
+          ports:
+            - containerPort: 8081  # Match consumer port 8081
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: "kafka:9092" 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-consumer-app
+spec:
+  ports:
+    - port: 8081  # Expose service on port 8081
+  selector:
+    app: ms-consumer-app
