@@ -103,7 +103,7 @@ EventMonitor/
 │   └── Dockerfile
 │   └── src/
 │   └── ...
-├── kafka-web-client/
+├── kafka-client/
 │   └── Dockerfile
 │   └── src/
 │   └── ...
