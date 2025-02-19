@@ -46,7 +46,7 @@ To run the entire system locally using Docker Compose, follow these steps:
 To deploy and run the application using Minikube, follow these steps:
 
 1. **Start Minikube:**
-    ```bash
+    ```bashls
     minikube start
     ```
 
@@ -56,7 +56,7 @@ Since Minikube runs a local Kubernetes cluster, images need to be built inside M
     eval $(minikube docker-env)
     docker build -t ms-producer-app:v1.0 ./kafka-ms-producer
     docker build -t ms-consumer-app:v1.0 ./kafka-ms-consumer
-    docker build -t react-client:v1.0 ./kafka-web-client
+    docker build -t react-client:v1.0 ./kafka-client
     ```
 
 3. **Apply the Kubernetes deployment and service configurations:**
@@ -82,7 +82,7 @@ Since Minikube runs a local Kubernetes cluster, images need to be built inside M
     ```bash
     kubectl port-forward deployment/ms-consumer-app 8081:8081
     kubectl port-forward deployment/ms-producer-app 8080:8080
-    kubectl port-forward svc/kafka-web-client 3000:80
+    kubectl port-forward svc/kafka-client 3000:80
     ```
 
 6. **Access the services:**
