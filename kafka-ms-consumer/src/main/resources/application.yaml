@@ -13,5 +13,6 @@ spring:
       auto-offset-reset: earliest
       enable-auto-commit: true
 
-
-
+schema:
+  registry:
+    url: http://schema-registry:8082

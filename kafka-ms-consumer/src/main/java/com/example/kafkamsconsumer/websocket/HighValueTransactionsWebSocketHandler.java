@@ -1,6 +1,7 @@
 package com.example.kafkamsconsumer.websocket;
 
-
+import avro.event.monitor.model.Transaction;
+import com.example.kafkamsconsumer.mapper.TransactionMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -17,22 +18,34 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class HighValueTransactionsWebSocketHandler extends TextWebSocketHandler {
     private static final List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
 
+    private final TransactionMapper transactionMapper;
+
+    public HighValueTransactionsWebSocketHandler(TransactionMapper transactionMapper) {
+        this.transactionMapper = transactionMapper;
+    }
 
     @KafkaListener(topics = "topic-high-value-transactions", groupId = "websocket-high-value-group")
-    public void listenTopic1(ConsumerRecord<String, String> record) throws IOException {
-        System.out.println("\nKafka Listener (High-Value Transactions) | Key: " + record.key() + " | Value: " + record.value() + " | Sessions: " + sessions.size());
+    public void listenTopic(ConsumerRecord<String, Transaction> record) throws IOException {
+        Transaction transaction = record.value();
+
+        System.out.println("\nKafka Listener (All-Value Transactions) | Key: " + record.key() +
+                " | Value: " + transaction +
+                " | Sessions: " + sessions.size());
+
         if (sessions.isEmpty()) {
             System.out.println("No WebSocket sessions available.");
             return;
         }
 
+        String json = transactionMapper.mapToJson(transaction);
+
+
         for (WebSocketSession session : sessions) {
             System.out.println("Sending to WebSocket session: " + session.getId());
-            session.sendMessage(new TextMessage(record.value()));
+            session.sendMessage(new TextMessage(json));
         }
 
     }
-
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {

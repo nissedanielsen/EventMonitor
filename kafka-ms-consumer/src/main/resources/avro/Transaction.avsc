@@ -1,0 +1,23 @@
+{
+  "type": "record",
+  "name": "Transaction",
+  "namespace": "avro.event.monitor.model",
+  "fields": [
+    {
+      "name": "transactionId",
+      "type": "string"
+    },
+    {
+      "name": "senderId",
+      "type": "string"
+    },
+    {
+      "name": "receiverId",
+      "type": "string"
+    },
+    {
+      "name": "amount",
+      "type": "double"
+    }
+  ]
+}

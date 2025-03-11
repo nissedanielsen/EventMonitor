@@ -9,14 +9,24 @@ import org.springframework.stereotype.Service;
 @EnableKafka
 public class KafkaProducerService {
 
-    private final KafkaTemplate<String, Transaction> kafkaTemplate;
+    private final KafkaTemplate<String, avro.event.monitor.model.Transaction> kafkaTemplate;
 
-    public KafkaProducerService(KafkaTemplate<String, Transaction> kafkaTemplate) {
+    public KafkaProducerService(KafkaTemplate<String, avro.event.monitor.model.Transaction> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
     public void sendTransaction(String topic,String id, Transaction transaction) {
-        kafkaTemplate.send(topic, id, transaction);
+
+        //send avro model to topic
+        //avro schema should be registered in schema register
+
+        avro.event.monitor.model.Transaction avroTransaction = new avro.event.monitor.model.Transaction();
+        avroTransaction.setTransactionId(transaction.getTransactionId());
+        avroTransaction.setAmount(transaction.getAmount());
+        avroTransaction.setReceiverId(transaction.getReceiverId());
+        avroTransaction.setSenderId(transaction.getSenderId());
+
+        kafkaTemplate.send(topic, id, avroTransaction);
     }
 
 }

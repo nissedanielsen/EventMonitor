@@ -1,4 +1,3 @@
-version: '3.7'
 services:
   kafka:
     image: 'bitnami/kafka:latest'
@@ -14,6 +13,7 @@ services:
       - '9092:9092'
     depends_on:
       - zookeeper
+
   zookeeper:
     image: 'bitnami/zookeeper:latest'
     container_name: zookeeper
@@ -23,6 +23,7 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
     ports:
       - '2181:2181'
+
   ms-producer-app:
     build:
       context: ./kafka-ms-producer
@@ -32,6 +33,7 @@ services:
       - my-network
     ports:
       - '8080:8080'
+
   ms-consumer-app:
     build:
       context: ./kafka-ms-consumer
@@ -43,6 +45,7 @@ services:
       - '8081:8081'
     depends_on:
       - kafka
+
   react-app:
     build:
       context: ./kafka-client
@@ -55,6 +58,22 @@ services:
     depends_on:
       - ms-producer-app
       - ms-consumer-app
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:latest
+    container_name: schema-registry
+    networks:
+      - my-network
+    environment:
+      - SCHEMA_REGISTRY_HOST_NAME=schema-registry
+      - SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS=kafka:9092
+      - SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL=PLAINTEXT
+      - SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:8082
+    ports:
+      - '8082:8082'
+    depends_on:
+      - kafka
+
 networks:
   my-network:
     driver: bridge
